@@ -510,15 +510,27 @@
         `<span class="history-desc">${escapeHtml(exp.description)}</span>` +
         `<span class="history-amount">${formatCurrency(exp.amount)}</span>` +
         `</div>` +
-        `<div class="history-meta">` +
-        `<span>paid by <strong>${escapeHtml(payerName)}</strong> · split ${exp.splitType === "equal" ? "equally" : "unequally"} among ${escapeHtml(participantNames)}</span>` +
-        `<div class="history-actions">
-          <button type="button" class="history-edit" data-id="${exp.id}">
-            ✏ Edit
-          </button>
-          <button type="button" class="history-delete" data-id="${exp.id}">
-            Delete
-          </button>
+        `<div class="history-meta">
+        paid by <strong>${escapeHtml(payerName)}</strong> ·
+        split ${exp.splitType === "equal" ? "equally" : "unequally"}
+        among ${escapeHtml(participantNames)}
+        </div>
+
+        <div class="history-actions">
+        <button
+        type="button"
+        class="history-edit"
+        data-id="${exp.id}">
+        ✏️ Edit
+        </button>
+
+        <button
+        type="button"
+        class="history-delete"
+        data-id="${exp.id}">
+        🗑 Delete
+        </button>
+
         </div>`;
       el.historyList.appendChild(item);
     });
@@ -648,10 +660,26 @@
       });
     }
 
-    addExpense(description, amount, payerId, state.splitType, shares);
-
-    // Reset form
-    resetExpenseForm();
+    if (editingExpenseId) {
+    updateExpense(
+        editingExpenseId,
+        description,
+        amount,
+        payerId,
+        state.splitType,
+        shares
+    );
+    }
+    else {
+    addExpense(
+        description,
+        amount,
+        payerId,
+        state.splitType,
+        shares
+    );
+  }
+  resetExpenseForm();
   }
 
   /* -------------------------------------------------------

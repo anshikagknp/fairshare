@@ -751,8 +751,9 @@ label, .label-static {
 
 .history-actions{
     display:flex;
-    gap:.45rem;
-    align-items:center;
+    justify-content:flex-end;
+    gap:.6rem;
+    margin-top:.8rem;
 }
 
 .history-edit,
