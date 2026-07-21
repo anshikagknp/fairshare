@@ -190,6 +190,58 @@
     persistState();
   }
 
+  function updateExpense(id, description, amount, payerId, splitType, shares) {
+    const expense = state.expenses.find(e => e.id === id);
+    if (!expense) return;
+    expense.description = description;
+    expense.amount = amount;
+    expense.payerId = payerId;
+    expense.splitType = splitType;
+    expense.shares = shares;
+    render();
+    persistState();
+
+}
+  function editExpense(id) {
+    const expense = state.expenses.find(e => e.id === id);
+    if (!expense) return;
+    editingExpenseId = id;
+    // Populate basic fields
+    el.expenseDesc.value = expense.description;
+    el.expenseAmount.value = expense.amount;
+    el.expensePayer.value = expense.payerId;
+    // Set split type
+    setSplitType(expense.splitType);
+    // Wait until DOM updates
+    requestAnimationFrame(() => {
+        const rows = el.splitMembers.querySelectorAll(".split-row");
+        rows.forEach(row => {
+            const memberId = row.dataset.id;
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            const selected = expense.shares[memberId] !== undefined;
+            checkbox.checked = selected;
+            if (expense.splitType === "unequal") {
+                const input = row.querySelector(".unequal-amount");
+                if (input) {
+                    input.disabled = !selected;
+                    input.value = selected
+                        ? expense.shares[memberId]
+                        : "";
+                }
+            }
+        });
+        // Refresh equal split preview if needed
+        if (expense.splitType === "equal") {
+            renderSplitMembers();
+        }
+    });
+    el.expenseSubmitBtn.textContent = "Update Expense →";
+    el.expenseForm.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+    });
+}
+
   function removeExpense(id) {
     state.expenses = state.expenses.filter((e) => e.id !== id);
     render();
@@ -460,8 +512,14 @@
         `</div>` +
         `<div class="history-meta">` +
         `<span>paid by <strong>${escapeHtml(payerName)}</strong> · split ${exp.splitType === "equal" ? "equally" : "unequally"} among ${escapeHtml(participantNames)}</span>` +
-        `<button type="button" class="history-delete" data-id="${exp.id}">Delete</button>` +
-        `</div>`;
+        `<div class="history-actions">
+          <button type="button" class="history-edit" data-id="${exp.id}">
+            ✏ Edit
+          </button>
+          <button type="button" class="history-delete" data-id="${exp.id}">
+            Delete
+          </button>
+        </div>`;
       el.historyList.appendChild(item);
     });
 
@@ -646,10 +704,16 @@
   el.expenseForm.addEventListener("submit", handleExpenseSubmit);
 
   el.historyList.addEventListener("click", (evt) => {
-    const btn = evt.target.closest(".history-delete");
-    if (!btn) return;
-    removeExpense(btn.dataset.id);
-  });
+    const editBtn = evt.target.closest(".history-edit");
+    if(editBtn){
+        editExpense(editBtn.dataset.id);
+        return;
+    }
+    const deleteBtn = evt.target.closest(".history-delete");
+    if(deleteBtn){
+        removeExpense(deleteBtn.dataset.id);
+    }
+});
 
   /* =========================================================
      ACCOUNTS & DATABASE

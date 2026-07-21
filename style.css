@@ -749,21 +749,34 @@ label, .label-static {
   gap: 0.5rem;
 }
 
-.history-delete {
-  background: transparent;
-  border: 1.5px solid var(--ink);
-  border-radius: 6px;
-  font-size: 0.7rem;
-  padding: 0.15rem 0.45rem;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  transition: background-color 0.2s ease, transform 0.2s var(--spring);
+.history-actions{
+    display:flex;
+    gap:.45rem;
+    align-items:center;
 }
 
-.history-delete:hover {
-  background: var(--danger);
-  color: var(--white);
-  transform: scale(1.05);
+.history-edit,
+.history-delete{
+    background:transparent;
+    border:1.5px solid var(--ink);
+    border-radius:6px;
+    font-size:.7rem;
+    padding:.15rem .45rem;
+    font-family:var(--font-mono);
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.history-edit:hover{
+    background:var(--sky);
+    transform:scale(1.05);
+}
+
+.history-delete:hover{
+    background:var(--danger);
+    color:white;
+    transform:scale(1.05);
 }
 
 /* =========================================================
