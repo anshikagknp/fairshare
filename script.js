@@ -737,7 +737,7 @@
           state.expenses = Array.isArray(data.expenses) ? data.expenses : [];
         }
       } catch (err) {
-        console.error("Could not load trip data from Firestore:", err);
+        console.error("Could not load expense data from Firestore:", err);
       }
     }
   }
@@ -769,7 +769,7 @@
             { ...payload, updatedAt: firebase.firestore.FieldValue.serverTimestamp() },
             { merge: true }
           )
-          .catch((err) => console.error("Could not save trip data:", err));
+          .catch((err) => console.error("Could not save expense data:", err));
       }
     }, 250);
   }
