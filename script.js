@@ -40,6 +40,7 @@
     memberCountBadge: document.getElementById("member-count-badge"),
 
     expenseForm: document.getElementById("expense-form"),
+    expenseSubmitBtn: document.getElementById("expense-submit-btn"),
     expenseDesc: document.getElementById("expense-desc"),
     expenseAmount: document.getElementById("expense-amount"),
     expensePayer: document.getElementById("expense-payer"),
@@ -504,6 +505,14 @@
     el.expenseError.textContent = "";
   }
 
+  function resetExpenseForm() {
+    editingExpenseId = null;
+    el.expenseForm.reset();
+    setSplitType("equal");
+    clearExpenseError();
+    el.expenseSubmitBtn.textContent = "Add Expense →";
+  }
+
   function collectSplitRows() {
     return Array.from(el.splitMembers.querySelectorAll(".split-row")).map((row) => {
       const id = row.dataset.id;
@@ -584,9 +593,7 @@
     addExpense(description, amount, payerId, state.splitType, shares);
 
     // Reset form
-    el.expenseForm.reset();
-    setSplitType("equal");
-    clearExpenseError();
+    resetExpenseForm();
   }
 
   /* -------------------------------------------------------
@@ -685,6 +692,11 @@
   let currentUser = null;   // { uid, email } for real accounts
   let isGuest = false;
   let authMode = "signin";  // "signin" | "signup"
+
+// null means adding a new expense.
+// otherwise stores the expense id being edited.
+
+  let editingExpenseId = null;
 
   if (isFirebaseConfigured && window.firebase) {
     try {
