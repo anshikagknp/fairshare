@@ -28,6 +28,7 @@
     "#2dd4bf", // teal bonus
   ];
 
+  let editingExpenseId = null;
   /* -------------------------------------------------------
      DOM REFERENCES
   ------------------------------------------------------- */
@@ -40,6 +41,7 @@
     memberCountBadge: document.getElementById("member-count-badge"),
 
     expenseForm: document.getElementById("expense-form"),
+    expenseSubmitBtn: document.getElementById("expense-submit-btn"),
     expenseDesc: document.getElementById("expense-desc"),
     expenseAmount: document.getElementById("expense-amount"),
     expensePayer: document.getElementById("expense-payer"),
@@ -190,10 +192,86 @@
   }
 
   function removeExpense(id) {
-    state.expenses = state.expenses.filter((e) => e.id !== id);
+    const expense = state.expenses.find(e => e.id === id);
+    if (!expense) return;
+    const confirmed = confirm(
+        `Delete "${expense.description}"?\n\nThis action cannot be undone.`
+    );
+    if (!confirmed) return;
+    state.expenses = state.expenses.filter(e => e.id !== id);
     render();
     persistState();
-  }
+}
+
+function editExpense(id) {
+  const expense = state.expenses.find(e => e.id === id);
+
+  if (!expense) return;
+
+  editingExpenseId = id;
+
+  el.expenseDesc.value = expense.description;
+  el.expenseAmount.value = expense.amount;
+  el.expensePayer.value = expense.payerId;
+
+  state.splitType = expense.splitType;
+
+  document.querySelectorAll(".toggle-btn").forEach(btn => {
+    btn.classList.toggle(
+      "active",
+      btn.dataset.split === expense.splitType
+    );
+  });
+
+  renderSplitMembers();
+
+  document.querySelectorAll(".split-row").forEach(row => {
+
+    const memberId = row.dataset.id;
+
+    const checkbox = row.querySelector(
+      'input[type="checkbox"]'
+    );
+
+    checkbox.checked = memberId in expense.shares;
+
+    if (expense.splitType === "unequal") {
+
+      const input = row.querySelector(".unequal-amount");
+
+      if (input) {
+        input.disabled = !checkbox.checked;
+        input.value = expense.shares[memberId] ?? "";
+      }
+    }
+  });
+
+  el.expenseSubmitBtn.textContent = "Update Expense";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+function updateExpense(id, description, amount, payerId, splitType, shares) {
+
+  const expense = state.expenses.find(e => e.id === id);
+
+  if (!expense) return;
+
+  expense.description = description;
+  expense.amount = amount;
+  expense.payerId = payerId;
+  expense.splitType = splitType;
+  expense.shares = shares;
+
+  persistState();
+
+  render();
+
+  resetExpenseForm();
+}
 
   /* -------------------------------------------------------
      RENDER: MEMBER TAGS
@@ -433,41 +511,104 @@
   ------------------------------------------------------- */
 
   function renderHistory() {
-    el.historyList.querySelectorAll(".history-item").forEach((n) => n.remove());
+
+    el.historyList.querySelectorAll(".history-item").forEach(n => n.remove());
+
     el.historyEmptyState.hidden = state.expenses.length > 0;
 
-    let total = 0;
+    const trueTotal = state.expenses.reduce(
+        (sum, e) => sum + e.amount,
+        0
+    );
 
-    [...state.expenses].reverse().forEach((exp, i) => {
-      total += exp.amount;
-      const payer = getMember(exp.payerId);
-      const payerName = payer ? payer.name : "(removed)";
-      const participantNames = Object.keys(exp.shares)
-        .map((id) => {
-          const m = getMember(id);
-          return m ? m.name : "(removed)";
-        })
-        .join(", ");
+    el.historyTotalBadge.textContent =
+        formatCurrency(trueTotal) + " total";
 
-      const item = document.createElement("div");
-      item.className = "history-item";
-      item.style.animationDelay = i * 0.04 + "s";
-      item.innerHTML =
-        `<div class="history-item-top">` +
-        `<span class="history-desc">${escapeHtml(exp.description)}</span>` +
-        `<span class="history-amount">${formatCurrency(exp.amount)}</span>` +
-        `</div>` +
-        `<div class="history-meta">` +
-        `<span>paid by <strong>${escapeHtml(payerName)}</strong> · split ${exp.splitType === "equal" ? "equally" : "unequally"} among ${escapeHtml(participantNames)}</span>` +
-        `<button type="button" class="history-delete" data-id="${exp.id}">Delete</button>` +
-        `</div>`;
-      el.historyList.appendChild(item);
-    });
+    [...state.expenses]
+        .reverse()
+        .forEach((exp, i) => {
 
-    // total is computed forward regardless of reverse-render above
-    const trueTotal = state.expenses.reduce((sum, e) => sum + e.amount, 0);
-    el.historyTotalBadge.textContent = formatCurrency(trueTotal) + " total";
-  }
+            const payer = getMember(exp.payerId);
+
+            const payerName = payer
+                ? payer.name
+                : "(removed)";
+
+            const participantNames = Object.keys(exp.shares)
+                .map(id => {
+                    const m = getMember(id);
+                    return m ? m.name : "(removed)";
+                })
+                .join(", ");
+
+            const item = document.createElement("div");
+
+            item.className = "history-item";
+
+            item.style.animationDelay =
+                (i * 0.04) + "s";
+
+            item.innerHTML = `
+
+<div class="history-item-top">
+
+    <div class="history-title">
+
+        <div class="history-desc">
+            ${escapeHtml(exp.description)}
+        </div>
+
+        <div class="history-meta">
+
+            <div>
+                paid by
+                <strong>${escapeHtml(payerName)}</strong>
+            </div>
+
+            <div>
+                split
+                ${exp.splitType === "equal"
+                    ? "equally"
+                    : "unequally"}
+                among
+                ${escapeHtml(participantNames)}
+            </div>
+
+        </div>
+
+    </div>
+
+    <span class="history-amount">
+        ${formatCurrency(exp.amount)}
+    </span>
+
+</div>
+
+<div class="history-actions">
+
+    <button
+        type="button"
+        class="history-edit"
+        data-id="${exp.id}">
+        Edit
+    </button>
+
+    <button
+        type="button"
+        class="history-delete"
+        data-id="${exp.id}">
+        Delete
+    </button>
+
+</div>
+
+`;
+
+            el.historyList.appendChild(item);
+
+        });
+
+}
 
   /* -------------------------------------------------------
      MASTER RENDER
@@ -503,6 +644,27 @@
     el.expenseError.hidden = true;
     el.expenseError.textContent = "";
   }
+
+  function resetExpenseForm() {
+  editingExpenseId = null;
+
+  el.expenseForm.reset();
+
+  state.splitType = "equal";
+
+  document.querySelectorAll(".toggle-btn").forEach(btn => {
+    btn.classList.toggle(
+      "active",
+      btn.dataset.split === "equal"
+    );
+  });
+
+  renderSplitMembers();
+
+  clearExpenseError();
+
+  el.expenseSubmitBtn.textContent = "Add Expense →";
+}
 
   function collectSplitRows() {
     return Array.from(el.splitMembers.querySelectorAll(".split-row")).map((row) => {
@@ -581,12 +743,27 @@
       });
     }
 
-    addExpense(description, amount, payerId, state.splitType, shares);
+    if (editingExpenseId) {
 
-    // Reset form
-    el.expenseForm.reset();
-    setSplitType("equal");
-    clearExpenseError();
+    updateExpense(
+        editingExpenseId,
+        description,
+        amount,
+        payerId,
+        state.splitType,
+        shares
+          );
+        }
+        else {
+          addExpense(
+              description,
+              amount,
+              payerId,
+              state.splitType,
+              shares
+          );
+        resetExpenseForm();
+        }
   }
 
   /* -------------------------------------------------------
@@ -639,11 +816,21 @@
   el.expenseForm.addEventListener("submit", handleExpenseSubmit);
 
   el.historyList.addEventListener("click", (evt) => {
-    const btn = evt.target.closest(".history-delete");
-    if (!btn) return;
-    removeExpense(btn.dataset.id);
-  });
 
+    const editBtn = evt.target.closest(".history-edit");
+
+    if (editBtn) {
+        editExpense(editBtn.dataset.id);
+        return;
+    }
+
+    const deleteBtn = evt.target.closest(".history-delete");
+
+    if (deleteBtn) {
+        removeExpense(deleteBtn.dataset.id);
+    }
+
+});
   /* =========================================================
      ACCOUNTS & DATABASE
 
