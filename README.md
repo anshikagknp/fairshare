@@ -1,233 +1,83 @@
-# 💸 FairShare
+<div align="center">
 
-## 🌐 Live Demo
+#  FairShare - Expense Splitter
 
-**Live:** https://fairshare-expense-splitter.vercel.app/
+### *Math is hard. Splitting the bill shouldn't be.*
 
-**Repository:** https://github.com/anshikagknp/fairshare
+[![Live Demo](https://img.shields.io/badge/🌐_Try_it-fairshare--expense--splitter.vercel.app-f472b6?style=for-the-badge)](https://fairshare-expense-splitter.vercel.app/)
 
+![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![Firebase](https://img.shields.io/badge/-Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black)
+![MIT License](https://img.shields.io/badge/-MIT_License-4ade80?style=flat-square)
 
+</div>
 
-## 📖 Overview
+<br>
 
-FairShare is a responsive expense-splitting web application that helps groups track shared expenses, calculate individual balances, and minimize the number of payments required to settle debts.
+> Someone pays for the cab, someone pays for dinner, someone "forgets" their wallet at the bar.
+> **FairShare** untangles it — track group expenses, and get told the *exact*, *minimum* set of payments to settle everything. No spreadsheets. No group-chat math.
 
-Instead of manually calculating who owes whom, FairShare automatically computes balances and generates the minimum transactions needed to settle all outstanding amounts.
+<br>
 
+## 🎮 Play With It
 
-
-## ✨ Features
-
-### 👥 Member Management
-- Add and remove group members
-- Interactive member chips
-- Dynamic participant selection
-
-### 💰 Expense Management
-- Add new expenses
-- Edit existing expenses
-- Delete expenses
-- Equal split
-- Unequal/custom split
-- Choose who paid
-
-### 📊 Smart Balance Calculation
-- Automatic balance updates
-- Real-time calculations
-- Creditors and debtors clearly highlighted
-
-### 🤝 Debt Settlement
-- Optimized settlement algorithm
-- Minimum number of transactions
-- Clear payment instructions
-
-### 🔐 Authentication
-- Email & Password login
-- Google Sign-In
-- Guest Mode
-- Persistent user data
-
-### ☁ Cloud Storage
-- Firebase Authentication
-- Cloud Firestore database
-- Automatic synchronization
-
-### 📱 Responsive UI
-- Desktop-friendly layout
-- Mobile responsive
-- Neo-brutalist design
-
-
-
-
-## 🖼 Screenshots
-
-### Sign-in
-
-<img width="1339" height="791" alt="image" src="https://github.com/user-attachments/assets/03d9fea9-97ef-45d6-bd9d-0705dbf0ae5e" />
-
-
-
-### Dashboard
-
-<img width="1470" height="798" alt="image" src="https://github.com/user-attachments/assets/23520bc7-189e-48bd-b515-e8d41a8ca5bb" />
-
-
-
-## 🛠 Tech Stack
-
-### Frontend
-
-- HTML5
-- CSS3
-- Vanilla JavaScript (ES6)
-
-### Backend Services
-
-- Firebase Authentication
-- Cloud Firestore
-
-### Deployment
-
-- Vercel
-
-### Version Control
-
-- Git
-- GitHub
-
-
-
-
-## 🧮 Core Algorithm
-
-FairShare uses a greedy debt-matching algorithm to minimize the number of transactions required for settlement.
-
-Example:
-
-Instead of
+No signup needed — jump straight in:
 
 ```
-A → B
-B → C
-C → D
+📧  admin@gmail.com
+🔑  @123456
 ```
 
-FairShare simplifies it into
+**[→ Launch FairShare](https://fairshare-expense-splitter.vercel.app/)**
 
-```
-A → D
-```
+<br>
 
-where possible, reducing unnecessary payments.
+## ⚡ What It Does
 
+| | |
+|---|---|
+| 🧾 | Log expenses, split **equally** or **custom** — down to the paisa |
+| ✏️ | **Edit** or delete any expense, balances update live |
+| 🧠 | Greedy algorithm settles debts in the **fewest transactions mathematically possible** |
+| 🔐 | Google · Email · or zero-signup **Guest Mode** |
+| ☁️ | Firebase-backed — your data follows you across devices |
+| 📱 | Looks sharp on a laptop *and* a phone in your other hand |
 
+<br>
 
+## 🧮 The Clever Bit
 
-## 🚀 Installation
+Instead of a messy chain like `A→B→C→D`, FairShare nets every balance and matches the biggest debtor to the biggest creditor — collapsing it to `A→D`.
 
-Clone the repository
+<br>
+
+## 🏗 Built With
+
+Just HTML, CSS, and vanilla JS. Clone it, open `index.html`, done.
 
 ```bash
 git clone https://github.com/anshikagknp/fairshare.git
 ```
 
-Navigate into the project
+Want cloud sync + real accounts? Drop your free [Firebase](https://console.firebase.google.com) config into `script.js`. Skip it entirely and Guest Mode still works perfectly.
 
-```bash
-cd fairshare
-```
+<br>
 
-Open the project
+## 🎨 The Look
 
-```bash
-index.html
-```
+Neo-brutalist, on purpose: thick black borders, offset hard shadows, loud pastel colors, springy interactions. Built to *not* look like every other dashboard template.
 
-or use
+<br>
 
-```bash
-Live Server
-```
+<div align="center">
 
+**Made by [Anshika Gupta](https://github.com/anshikagknp)**
+[GitHub](https://github.com/anshikagknp) · [LinkedIn](https://www.linkedin.com/in/anshikagknp/)
 
+⭐ *If FairShare saved a friendship, star the repo.*
 
+MIT Licensed · © 2026
 
-## 🔥 Firebase Setup
-
-Create a Firebase project.
-
-Enable:
-
-- Authentication
-  - Email/Password
-  - Google Sign-In
-
-- Cloud Firestore
-
-Replace the Firebase configuration inside:
-
-```javascript
-script.js
-```
-
-with your own project credentials.
-
-
-
-
-## 📂 Project Structure
-
-```
-FairShare
-│
-├── index.html
-├── style.css
-├── script.js
-├── README.md
-└── assets/
-```
-
-
-
-
-## 🎨 Design
-
-The interface follows a **Neo-brutalist** design language featuring:
-
-- Bold outlines
-- Hard shadows
-- Bright color palette
-- Rounded cards
-- Bento-inspired dashboard layout
-- High contrast typography
-
-
-
-
-## Future Improvements
-
-- Expense categories
-- Search & filter history
-- Multi-currency support
-- Dark mode
-- Export reports
-- Email invitations
-
-
-
-
-## 👩‍💻 Author
-
-**Anshika Gupta**
-
-GitHub: https://github.com/anshikagknp
-
-LinkedIn: https://www.linkedin.com/in/anshikagknp/
-
-
-
-
-## 📄 License
-
-This project is licensed under the MIT License.
+</div>
