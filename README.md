@@ -1,10 +1,8 @@
 
 
 <div align="center" id="top">
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:fb923c,25:ec4899,50:8b5cf6,75:6366f1,100:0ea5e9&height=200&section=header&text=FairShare&fontSize=74&fontColor=fef9ec&fontAlignY=36&desc=Split%20smarter.%20No%20awkward%20math.&descAlignY=54&descSize=19&animation=fadeIn" width="100%"/>
-
-<h2 align="center">an expense splitter that actually does the math, so your group doesn't have to</h2>
+<h1 align="center">FairShare</h1>
+<h3 align="center">an expense splitter that actually does the math, so your group doesn't have to</h3>
 
 <br>
 
@@ -16,7 +14,7 @@
 
 <br>
 
-<code>0 dependencies</code> &nbsp;·&nbsp; <code>3 files</code> &nbsp;·&nbsp; <code>O(n) settlement</code> &nbsp;·&nbsp; <code>2 sign-in methods</code> &nbsp;·&nbsp; <code>MIT licensed</code>
+<code>O(n) settlement</code> &nbsp;·&nbsp; <code>2 sign-in methods</code> &nbsp;·&nbsp; <code>MIT licensed</code>
 
 <br>
 
@@ -28,7 +26,7 @@
 
 <table>
 <tr>
-<td width="70%" valign="top">
+<td width="60%" valign="top">
 
 ### 🫠 The Problem
 
@@ -39,17 +37,9 @@ Someone books the Airbnb. Someone else grabs the cab. A third person "gets the n
 **FairShare** logs every expense the moment it happens — who paid, how much, and how it's split — and keeps a running, real-time balance for each person. When it's time to settle, it doesn't just list raw debts; it collapses them into the *smallest possible number of payments*. No spreadsheets, no mental math, no "wait, didn't I already pay you back?"
 
 </td>
-<td width="30%" valign="top">
+<td width="40%" valign="top">
 
-```
-  ₹ input:  chaos
-  ↓
-  🧮 greedy debt
-     matching
-  ↓
-  ₹ output: 1, 2, 3
-     clean payments
-```
+<img width="360" height="380" alt="settlement-diagram" src="https://github.com/user-attachments/assets/5ae72f6d-0cfd-42ef-b1ee-40498e61b976" />
 
 </td>
 </tr>
@@ -85,7 +75,7 @@ Someone books the Airbnb. Someone else grabs the cab. A third person "gets the n
 <br><sub><b>🔐 Sign In</b> — email, Google, or skip straight to Guest Mode</sub>
 </td>
 <td align="center" width="50%">
-<img width="1320" height="802" alt="image" src="https://github.com/user-attachments/assets/7ced9183-e2ed-4b90-adf8-a1b37eb64f40" />
+<img width="1255" height="801" alt="image" src="https://github.com/user-attachments/assets/1ea4f210-8d44-4998-8e57-cd578cc80b5d" />
 <br><sub><b>📊 Dashboard</b> — members, expenses, balances, and settlements at a glance</sub>
 </td>
 </tr>
@@ -172,17 +162,7 @@ Want persistent cloud accounts? Drop your free [Firebase](https://console.fireba
 
 <br>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0ea5e9,25:6366f1,50:8b5cf6,75:ec4899,100:fb923c&height=180&section=footer&animation=fadeIn" width="100%"/>
-
 <div align="center">
-
-### Made with 🩶 by Anshika Gupta
-
-<a href="https://github.com/anshikagknp"><img src="https://img.shields.io/badge/-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/></a>
-<a href="https://www.linkedin.com/in/anshikagknp/"><img src="https://img.shields.io/badge/-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
-<a href="https://fairshare-expense-splitter.vercel.app/"><img src="https://img.shields.io/badge/-Live_Demo-ec4899?style=for-the-badge&logoColor=white" alt="Live Demo"/></a>
-
-<br><br>
 
 <sub>MIT Licensed · © 2026 · <a href="#top">back to top ↑</a></sub>
 
